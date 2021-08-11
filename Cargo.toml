@@ -3,12 +3,17 @@ name = "kak-buffercraft"
 version = "0.0.1"
 authors = ["Michael Davis"]
 license = "MIT"
-repository = "https://github.com/the-mikedavis/kak-buffercraft"
+repository = "https://github.com/the-mikedavis/buffercraft.kak"
 keywords = ["kakoune"]
 categories = ["command-line-utilities"]
 
-[dependencies]
-tera = "1"
+[package.metadata.nix]
+build = true
+app = true
+
+[[bin]]
+name = "kak-buffercraft"
+path = "src/main.rs"
 
 [dependencies.tera]
 version = "1"
