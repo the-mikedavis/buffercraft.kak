@@ -1,0 +1,15 @@
+[package]
+name = "kak-buffercraft"
+version = "0.0.1"
+authors = ["Michael Davis"]
+license = "MIT"
+repository = "https://github.com/the-mikedavis/kak-buffercraft"
+keywords = ["kakoune"]
+categories = ["command-line-utilities"]
+
+[dependencies]
+tera = "1"
+
+[dependencies.tera]
+version = "1"
+default-features = false
