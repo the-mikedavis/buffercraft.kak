@@ -75,15 +75,17 @@ configuration directly in my `kakrc`.
 The hook configuration might look like this:
 
 ```kak
-set-option buffer buffercraft_kind "lib"
-set-option buffer buffercraft_pattern "lib/(.*)\.ex"
-set-option buffer buffercraft_alternate "test/{{ match[1] }}_test.exs"
-set-option buffer buffercraft_template '
-defmodule {{ match[1] | camelcase | capitalize | dot }} do
-  @moduledoc """
-  """
-end
-'
+hook global BufCreate lib/.*\.ex %{
+  set-option buffer buffercraft_kind "lib"
+  set-option buffer buffercraft_pattern "lib/(.*)\.ex"
+  set-option buffer buffercraft_alternate "test/{{ match[1] }}_test.exs"
+  set-option buffer buffercraft_template '
+  defmodule {{ match[1] | camelcase | capitalize | dot }} do
+    @moduledoc """
+    """
+  end
+  '
+}
 ```
 
 The _kind_ is used to select which sort of template and alternate rules you
