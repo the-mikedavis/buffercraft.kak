@@ -1,3 +1,5 @@
+use std::io::{self, Read};
+extern crate tera;
 use tera::Tera;
 use tera::Context;
 
