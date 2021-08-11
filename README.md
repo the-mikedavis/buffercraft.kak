@@ -11,3 +11,7 @@ and configuration.
 
 This repo uses [nix](https://nixos.org/) for development. You may also
 ignore nix and use `cargo` if you have it installed.
+
+Spawn a development shell with all necessary dependencies with `nix-shell`
+in this directory. Use `check` to build the `kak-buffercraft` binary. Follow
+the output of `menu` for other options.
