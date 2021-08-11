@@ -6,3 +6,8 @@ text editor which tries to emulate some behavior of
 
 It's a work-in-progress. Check back later to see docs about usage, installation,
 and configuration.
+
+## Development
+
+This repo uses [nix](https://nixos.org/) for development. You may also
+ignore nix and use `cargo` if you have it installed.
