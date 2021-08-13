@@ -8,8 +8,8 @@ fn main() -> io::Result<()> {
     let args: Vec<_> = std::env::args().collect();
 
     if args.len() != 3 {
-      eprintln!("Usage: echo '<template>' | kak-buffercraft '<pattern>' '<prospect>'");
-      ::std::process::exit(1);
+        eprintln!("Usage: echo '<template>' | kak-buffercraft '<pattern>' '<prospect>'");
+        ::std::process::exit(1);
     }
 
     let mut template = String::new();
@@ -24,18 +24,18 @@ fn main() -> io::Result<()> {
     // example. this filter already exists:
     // tera.register_filter("upper", string::upper);
 
-    tera.add_raw_template("stdin", template).unwrap_or_else(|error| {
-        eprintln!("Problem parsing template: {}", error);
-        ::std::process::exit(1);
-    });
+    tera.add_raw_template("stdin", template)
+        .unwrap_or_else(|error| {
+            eprintln!("Problem parsing template: {}", error);
+            ::std::process::exit(1);
+        });
 
     match tera.render("stdin", &context) {
-      Ok(result) =>
-        print!("{}", result),
-      Err(err) => {
-        eprintln!("{}", err);
-        ::std::process::exit(1);
-      }
+        Ok(result) => print!("{}", result),
+        Err(err) => {
+            eprintln!("{}", err);
+            ::std::process::exit(1);
+        }
     }
 
     Ok(())
