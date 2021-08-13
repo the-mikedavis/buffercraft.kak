@@ -19,11 +19,19 @@ fn main() -> io::Result<()> {
     // example. this filter already exists:
     // tera.register_filter("upper", string::upper);
 
-    tera.add_raw_template("template.txt", template)?;
+    tera.add_raw_template("template.txt", template).unwrap_or_else(|error| {
+        eprintln!("Problem parsing template: {}", error);
+        ::std::process::exit(1);
+    });
 
-    let result = tera.render("template.txt", &context);
-
-    println!("{}", result);
+    match tera.render("template.txt", &context) {
+      Ok(result) =>
+        println!("{}", result),
+      Err(err) => {
+        eprintln!("Problem rendering template: {}", err);
+        ::std::process::exit(1);
+      }
+    }
 
     Ok(())
 }
