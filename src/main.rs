@@ -1,9 +1,11 @@
+use std::collections::HashMap;
 use std::io::{self, Read};
+extern crate inflector;
 extern crate regex;
 extern crate tera;
+use inflector::Inflector;
 use regex::Regex;
-use tera::Context;
-use tera::Tera;
+use tera::{to_value, try_get_value, Context, Result as TeraResult, Tera, Value};
 
 fn main() -> io::Result<()> {
     let args: Vec<_> = std::env::args().collect();
@@ -24,18 +26,24 @@ fn main() -> io::Result<()> {
     io::stdin().read_to_string(&mut template)?;
     let template: &str = &template[..];
 
-    let mut tera = Tera::default();
-    let mut context = Context::new();
-
     let matches: Vec<String> = pattern
-        .find_iter(prospect)
-        .map(|m| m.as_str().to_string())
+        .captures(prospect)
+        .unwrap_or_else(|| {
+            eprintln!("Could not find prospect matches in pattern");
+            ::std::process::exit(1);
+        })
+        .iter()
+        .map(|m| m.unwrap().as_str().to_string())
         .collect();
 
-    context.insert("matches", &matches);
+    let mut tera = Tera::default();
+    tera.register_filter("dot", dot);
+    tera.register_filter("camelcase", camelcase);
+    tera.register_filter("pascalcase", pascalcase);
 
-    // example. this filter already exists:
-    // tera.register_filter("upper", string::upper);
+    let mut context = Context::new();
+
+    context.insert("matches", &matches);
 
     tera.add_raw_template("stdin", template)
         .unwrap_or_else(|error| {
@@ -52,4 +60,19 @@ fn main() -> io::Result<()> {
     }
 
     Ok(())
+}
+
+fn dot(value: &Value, _args: &HashMap<String, Value>) -> TeraResult<Value> {
+    let s = try_get_value!("dot", "value", String, value);
+    Ok(to_value(s.replace("/", ".")).unwrap())
+}
+
+fn camelcase(value: &Value, _args: &HashMap<String, Value>) -> TeraResult<Value> {
+    let s = try_get_value!("camelcase", "value", String, value);
+    Ok(to_value(s.to_camel_case()).unwrap())
+}
+
+fn pascalcase(value: &Value, _args: &HashMap<String, Value>) -> TeraResult<Value> {
+    let s = try_get_value!("pascalcase", "value", String, value);
+    Ok(to_value(s.to_pascal_case()).unwrap())
 }
