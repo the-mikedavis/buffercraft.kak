@@ -1,8 +1,9 @@
 use std::io::{self, Read};
+extern crate regex;
 extern crate tera;
+use regex::Regex;
 use tera::Context;
 use tera::Tera;
-// use regex::Regex;
 
 fn main() -> io::Result<()> {
     let args: Vec<_> = std::env::args().collect();
@@ -12,6 +13,13 @@ fn main() -> io::Result<()> {
         ::std::process::exit(1);
     }
 
+    let pattern = Regex::new(&args[1].as_str()).unwrap_or_else(|error| {
+        eprintln!("Could not compile pattern as regex: {}", error);
+        ::std::process::exit(1);
+    });
+
+    let prospect = &args[2].as_str();
+
     let mut template = String::new();
     io::stdin().read_to_string(&mut template)?;
     let template: &str = &template[..];
@@ -19,7 +27,12 @@ fn main() -> io::Result<()> {
     let mut tera = Tera::default();
     let mut context = Context::new();
 
-    // read matches with regex, load those into context with context.insert/1;
+    let matches: Vec<String> = pattern
+        .find_iter(prospect)
+        .map(|m| m.as_str().to_string())
+        .collect();
+
+    context.insert("matches", &matches);
 
     // example. this filter already exists:
     // tera.register_filter("upper", string::upper);

@@ -15,6 +15,9 @@ app = true
 name = "kak-buffercraft"
 path = "src/main.rs"
 
+[dependencies]
+regex = "1"
+
 [dependencies.tera]
 version = "1"
 default-features = false
