@@ -33,7 +33,7 @@ modules generally follow a template where `lib/(.*)\.ex` yields a single module
 that initially looks like this:
 
 ```elixir
-defmodule {{ match[1] | camelcase | capitalize | dot }} do
+defmodule {{ match[1] | pascalcase | dot }} do
   @moduledoc """
   """
 end
