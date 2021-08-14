@@ -33,13 +33,13 @@ modules generally follow a template where `lib/(.*)\.ex` yields a single module
 that initially looks like this:
 
 ```elixir
-defmodule {{ match[1] | pascalcase | dot }} do
+defmodule {{ matches[1] | pascalcase | dot }} do
   @moduledoc """
   """
 end
 ```
 
-Where `match[1]` is the regex match for the first group (thing in parens).
+Where `matches[1]` is the regex match for the first group (thing in parens).
 
 This code block would be the _template_ (passed via `stdin`), while
 `lib/my_app/my_module.ex` would be the _prospect_ (first command-line
@@ -51,7 +51,7 @@ is the same. The alternate for an elixir lib file has the same prospect
 and pattern but uses a template:
 
 ```
-test/{{ match[1] }}_test.exs
+test/{{ matches[1] }}_test.exs
 ```
 
 And of course that template gets used differently by the `buffercraft.kak`
@@ -75,9 +75,9 @@ The hook configuration might look like this:
 hook global BufCreate lib/.*\.ex %{
   set-option buffer buffercraft_kind "lib"
   set-option buffer buffercraft_pattern "lib/(.*)\.ex"
-  set-option buffer buffercraft_alternate "test/{{ match[1] }}_test.exs"
+  set-option buffer buffercraft_alternate "test/{{ matches[1] }}_test.exs"
   set-option buffer buffercraft_template '
-  defmodule {{ match[1] | camelcase | capitalize | dot }} do
+  defmodule {{ matches[1] | camelcase | capitalize | dot }} do
     @moduledoc """
     """
   end
