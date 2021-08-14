@@ -69,10 +69,20 @@ fn dot(value: &Value, _args: &HashMap<String, Value>) -> TeraResult<Value> {
 
 fn camelcase(value: &Value, _args: &HashMap<String, Value>) -> TeraResult<Value> {
     let s = try_get_value!("camelcase", "value", String, value);
-    Ok(to_value(s.to_camel_case()).unwrap())
+    let camel = s
+        .split("/")
+        .map(|s| s.to_camel_case())
+        .collect::<Vec<String>>()
+        .join("/");
+    Ok(to_value(camel).unwrap())
 }
 
 fn pascalcase(value: &Value, _args: &HashMap<String, Value>) -> TeraResult<Value> {
     let s = try_get_value!("pascalcase", "value", String, value);
-    Ok(to_value(s.to_pascal_case()).unwrap())
+    let pascal = s
+        .split("/")
+        .map(|s| s.to_pascal_case())
+        .collect::<Vec<String>>()
+        .join("/");
+    Ok(to_value(pascal).unwrap())
 }
