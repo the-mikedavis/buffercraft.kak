@@ -4,10 +4,47 @@ Buffercraft is a plugin for the [kakoune](https://github.com/mawww/kakoune)
 text editor which tries to emulate some behavior of
 [`tpope/vim-projectionist`](https://github.com/tpope/vim-projectionist).
 
-## Usage, Installation, Configuration
+# Installation
 
-It's a work-in-progress. Check back later to see docs about usage, installation,
-and configuration.
+It's a work-in-progress. Check back later to see these docs.
+
+## Configuration
+
+Buffercraft defines four options for getting to alternates and rendering
+templates. These should be configured in your own kakoune configuration
+using hooks for buffer creation. For example, here are some of mine for
+basic elixir projects.
+
+```kak
+hook global BufCreate .*[.]ex %{
+  set-option buffer buffercraft_kind "lib"
+  set-option buffer buffercraft_pattern "lib/(.*)\.ex"
+  set-option buffer buffercraft_alternate "test/{{ matches[1] }}_test.exs"
+  set-option buffer buffercraft_template \
+'defmodule {{ matches[1] | pascalcase | dot }} do
+  @moduledoc """
+  """
+end'
+}
+
+hook global BufCreate .*_test[.]exs %{
+  set-option buffer buffercraft_kind "test"
+  set-option buffer buffercraft_pattern "test/(.*)_test\.exs"
+  set-option buffer buffercraft_alternate "lib/{{ matches[1] }}.ex"
+  set-option buffer buffercraft_template \
+'defmodule {{ matches[1] | pascalcase | dot }}Test do
+  use ExUnit.Case, async: true
+end'
+}
+```
+
+## Usage
+
+Once these options are set up, edit a buffer matching the BufCreate regex
+and use the `buffercraft-alternate` and `buffercraft-template` commands.
+`buffercraft-alternate` edits a buffer using the `buffercraft_alternate`
+as the template, and `buffercraft-template` renders the `buffercraft_template`
+option's template in the current buffer.
 
 ## Development
 
