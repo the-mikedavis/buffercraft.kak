@@ -7,7 +7,7 @@ declare-option str buffercraft_template ""
 
 define-command -docstring "edit the alternate of the current buffer" \
 buffercraft-alternate %{
-  execute-keys '<esc>: edit %sh{echo "$kak_opt_buffercraft_alternate" | kak-buffercraft "$kak_opt_buffercraft_pattern" "$kak_buffile"}<ret>'
+  execute-keys '<esc>: edit %sh{printf %s "$kak_opt_buffercraft_alternate" | kak-buffercraft "$kak_opt_buffercraft_pattern" "$kak_buffile"}<ret>'
 }
 
 define-command -docstring "write the buffer template to the current filename" \
