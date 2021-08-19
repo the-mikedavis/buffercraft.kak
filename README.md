@@ -4,7 +4,55 @@ Buffercraft is a plugin for the [kakoune](https://github.com/mawww/kakoune)
 text editor which tries to emulate some behavior of
 [`tpope/vim-projectionist`](https://github.com/tpope/vim-projectionist).
 
-# Installation
+## What is it?
+
+Buffercraft is a plugin that allows you to jump around and render templates
+for files in projects with common structures.
+
+For example, Elixir has a
+convention where any source module `MyApp.MyModule` is defined in a
+`lib/my_app/my_module.ex` file. That module also has an _alternate_: the
+unit test module/file. `MyApp.MyModule` is usually tested in a module
+named `MyApp.MyModuleTest` located in `test/my_app/my_module_test.exs`.
+
+If you're editing `MyApp.MyModule`, you'll usually make some
+accompanying edits to the unit tests, and this means you have to
+go open or jump to the buffer for the unit test file. This is dead
+easy in pretty much every editor but it takes way too many keystrokes
+(sometimes you type the whole filename! :scream:).
+
+With buffercraft, you just use the `buffercraft-alternate` command to jump
+from the source to the unit tests or from the unit tests back to the source.
+This can be tab-completed with `"<esc>:alt<tab><ret>`, or you can make a
+custom mapping to really save on keystrokes!
+
+If you're writing new source and test modules, you'll also have to type
+a bit of boilerplate: the `defmodule/2` declarations. With the proper
+template configuration, the `buffercraft-template` command can start
+off a source file with the boilerplate
+
+```elixir
+defmodule MyApp.MyModule do
+  @moduledoc """
+  """
+end
+```
+
+And once you jump to the unit tests, you can set up the boilerplate there
+too:
+
+```elixir
+defmodule MyApp.MyModuleTest do
+  use ExUnit.Case, async: true
+
+  alias MyApp.MyModule
+end
+```
+
+This isn't a huge time savings but once you start using these jumping and
+templating abilities, doing it by hand will seem absurd and monotonous.
+
+## Installation
 
 If you use [nix](https://nixos.org/) for package management, you may
 install the `kak-buffercraft` binary by cloning this repository and
@@ -22,7 +70,7 @@ will install the `kak-buffercraft` binary into your cargo binaries path.
 With the `kak-buffercraft` binary installed, now add the kakoune plugin.
 You can drop in the `rc/buffercraft.kak` into your kakoune auto-load
 directory ([see the kakoune wiki on plugin
-installation](https://github.com/mawww/kakoune/wiki/Installing-Plugins),
+installation](https://github.com/mawww/kakoune/wiki/Installing-Plugins)),
 or if you use [`plug.kak`](https://github.com/andreyorst/plug.kak),
 add
 
