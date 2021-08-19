@@ -6,7 +6,32 @@ text editor which tries to emulate some behavior of
 
 # Installation
 
-It's a work-in-progress. Check back later to see these docs.
+If you use [nix](https://nixos.org/) for package management, you may
+install the `kak-buffercraft` binary by cloning this repository and
+running `nix-env -i -f default.nix`. If you know what you're doing
+with flakes, you can also install this as a flake (see the `flake.nix`).
+
+If you're just using `cargo` to build the rust part of this project,
+
+```
+cargo install
+```
+
+will install the `kak-buffercraft` binary into your cargo binaries path.
+
+With the `kak-buffercraft` binary installed, now add the kakoune plugin.
+You can drop in the `rc/buffercraft.kak` into your kakoune auto-load
+directory ([see the kakoune wiki on plugin
+installation](https://github.com/mawww/kakoune/wiki/Installing-Plugins),
+or if you use [`plug.kak`](https://github.com/andreyorst/plug.kak),
+add
+
+```kak
+plug "the-mikedavis/buffercraft.kak"
+```
+
+To your kakoune configuration. This will add the `buffercraft-alternate` and
+`buffercraft-template` commands which can be mapped or called directly.
 
 ## Configuration
 
