@@ -23,7 +23,7 @@ easy in pretty much every editor but it takes way too many keystrokes
 
 With buffercraft, you just use the `buffercraft-alternate` command to jump
 from the source to the unit tests or from the unit tests back to the source.
-This can be tab-completed with `"<esc>:alt<tab><ret>`, or you can make a
+This can be tab-completed with `<esc>:alt<tab><ret>`, or you can make a
 custom mapping to really save on keystrokes!
 
 If you're writing new source and test modules, you'll also have to type
