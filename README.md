@@ -1,6 +1,6 @@
 # buffercraft.kak
 
-Buffercraft is a plugin for the [kakoune](https://github.com/mawww/kakoune)
+Buffercraft is a plugin for the [kakoune](https://kakoune.org/)
 text editor which tries to emulate some behavior of
 [`tpope/vim-projectionist`](https://github.com/tpope/vim-projectionist).
 
