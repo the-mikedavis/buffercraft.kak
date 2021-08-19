@@ -184,7 +184,7 @@ configuration directly in my `kakrc`.
 The hook configuration might look like this:
 
 ```kak
-hook global BufCreate lib/.*\.ex %{
+hook global BufCreate .*[.]ex %{
   set-option buffer buffercraft_kind "lib"
   set-option buffer buffercraft_pattern "lib/(.*)\.ex"
   set-option buffer buffercraft_alternate "test/{{ matches[1] }}_test.exs"
@@ -200,6 +200,41 @@ The _kind_ is used to select which sort of template and alternate rules you
 want to use. The _pattern_ matches the pattern described above, and the
 _alternate_ and _template_ are both templates as described above.
 
+## TODO
+
+- figure out how to test stuff in rust
+    - this will probably also mean splitting out the main/0 function into
+      helper functions
+    - set up actions CI for these tests
+    - I assume it's not possible to test kakounescript but I'd be pleasantly
+      surprised if we can get some automated test cases through the editor
+- improve error case handling
+    - something something get the error message into the debug buffer
+    - maybe it's good enough as it is?
+- possibly refactor how configuration is done
+    - the hook regex for buffer creation takes the basename of the file,
+      not the whole buffile value which means we can't detect special cases
+      like Phoenix controllers
+    - I'd like to avoid projectionist-style JSON configurations (see mor
+      on that below)
+
+## Differences to vim-projectionist
+
+The primary difference is configuration. Buffercraft uses kakoune hooks and
+values to drive configuration while vim-projectionist uses a JSON file or
+a vim data structure. Kakounescript doesn't support the rich data structures
+vimscript does and I found the `.projections.json` to be clunky: do I check
+it into git? Do I have to check it in across all repositories?
+
+Buffercraft also does not auto-inject the template into a new buffer for a
+file that does not yet exist. This is more of a practical choice since
+`echo -to-file` exists and I could not figure out an easy way to echo
+directly into the buffer contents (perhaps the `|` pipe operator would help
+here). This is a bit of a limitation because the file needs to exist for
+this to succee. I'd prefer to have the newly created buffer have the
+rendered template contents and then the user can decide if and how they
+want to save the file.
+
 ## Naming
 
-It sounds like hovercraft and that brings me joy :hugs:
+It sounds like hovercraft and that brings me joy :flying_saucer:
