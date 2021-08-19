@@ -30,7 +30,7 @@ add
 plug "the-mikedavis/buffercraft.kak"
 ```
 
-To your kakoune configuration. This will add the `buffercraft-alternate` and
+to your kakoune configuration. This will add the `buffercraft-alternate` and
 `buffercraft-template` commands which can be mapped or called directly.
 
 ## Configuration
