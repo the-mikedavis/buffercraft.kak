@@ -107,6 +107,8 @@ hook global BufCreate .*_test[.]exs %{
   set-option buffer buffercraft_template \
 'defmodule {{ matches[1] | pascalcase | dot }}Test do
   use ExUnit.Case, async: true
+
+  alias {{ matches[1] | pascalcase | dot }}
 end'
 }
 ```
@@ -186,12 +188,11 @@ hook global BufCreate lib/.*\.ex %{
   set-option buffer buffercraft_kind "lib"
   set-option buffer buffercraft_pattern "lib/(.*)\.ex"
   set-option buffer buffercraft_alternate "test/{{ matches[1] }}_test.exs"
-  set-option buffer buffercraft_template '
-  defmodule {{ matches[1] | camelcase | capitalize | dot }} do
-    @moduledoc """
-    """
-  end
-  '
+  set-option buffer buffercraft_template \
+'defmodule {{ matches[1] | camelcase | capitalize | dot }} do
+  @moduledoc """
+  """
+end'
 }
 ```
 
