@@ -154,8 +154,8 @@ end
 Where `matches[1]` is the regex match for the first group (thing in parens).
 
 This code block would be the _template_ (passed via `stdin`), while
-`lib/my_app/my_module.ex` would be the _prospect_ (first command-line
-argument) and `lib/(.*)\.ex` would be the _pattern_ (second command-line
+`lib/(.*)\.ex` would be the _pattern_ (first command-line argument)
+and `lib/my_app/my_module.ex` would be the _prospect_ (second command-line
 argument).
 
 What about alternates? Alternates may be used differently but the structure
