@@ -56,8 +56,33 @@ templating abilities, doing it by hand will seem absurd and monotonous.
 
 If you use [nix](https://nixos.org/) for package management, you may
 install the `kak-buffercraft` binary by cloning this repository and
-running `nix-env -i -f default.nix`. If you know what you're doing
-with flakes, you can also install this as a flake (see the `flake.nix`).
+running `nix-env -i -f default.nix`.
+
+If you use flakes, you can add this flake to your flake as an input.
+For example, a NixOS configuration can add the `kak-buffercraft` binary
+like so
+
+```nix
+{
+  inputs = {
+    # ..
+    kak-buffercraft.url = "github:the-mikedavis/buffercraft.kak";
+  };
+  outputs = inputs@{ pkgs, ... }: {
+    nixosConfigurations.mymachinenamehere = pkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        # ..
+        {
+          environment.systemPackages = [
+            inputs.kak-buffercraft.defaultPackage.x86_64-linux
+          ];
+        }
+      ];
+    };
+  };
+}
+```
 
 If you're just using `cargo` to build the rust part of this project,
 
